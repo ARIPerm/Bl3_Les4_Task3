@@ -1,6 +1,11 @@
 ﻿#include <iostream>
 #include <Windows.h>
 #include <vector>
+#include <initializer_list>
+
+void isRight(bool isBool);
+void printAngle(std::initializer_list<int> value);
+void printSides(std::initializer_list<int> value);
 
 class Figure
 {
@@ -28,14 +33,14 @@ public:
     }
 
     virtual void getSides() {};
-    virtual void getUncle() {};
+    virtual void getAngle() {};
 
-    void checkRight() 
+    bool checkRight() 
     {
         if (_countSides == 0)
-            std::cout << "Правильная" << std::endl;
+            return true;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     };
 
 private:
@@ -56,23 +61,51 @@ public:
         C = tC;
     }
 
-    void getSides() override
+    int getSides(int index) const
     {
-        std::cout << "Стороны: a=" << a << " b=" << b << " c=" << c << std::endl;
+        switch (index)
+        {
+        case 1:
+            return a;
+            break;
+        case 2:
+            return b;
+            break;
+        case 3:
+            return c;
+            break;
+        default:
+            return -1;
+            break;
+        }
     };
 
-    void getUncle() override
+    int getAngle(int index) const
     {
-        std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << std::endl;
+        switch (index)
+        {
+        case 1:
+            return A;
+            break;
+        case 2:
+            return B;
+            break;
+        case 3:
+            return C;
+            break;
+        default:
+            return -1;
+            break;
+        }
     };
 
-    void checkRight() 
+    bool checkRight() 
     {
         int result = A + B + C;
         if (result == 180)
-            std::cout << "Правильная" << std::endl;
+            return true;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 
 protected:
@@ -85,18 +118,18 @@ class RightTriangle : public Triangle
 public:
     RightTriangle(int ta, int tb, int tc, int tA, int tB, int tC) : Triangle(ta, tb, tc, tA, tB, tC, "Прямоугольный треугольник") { }
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C;
         if (result == 180)
         {
-            if(C == 90)
-                std::cout << "Правильная" << std::endl;
+            if (C == 90)
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         }            
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -105,18 +138,18 @@ class IsoscelesTriangle : public Triangle
 public:
     IsoscelesTriangle(int ta, int tb, int tc, int tA, int tB, int tC) : Triangle(ta, tb, tc, tA, tB, tC, "Равнобедренный треугольник") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C;
         if (result == 180)
         {
             if (A == C && a == c)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         }
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -125,18 +158,18 @@ class EqualateralTriangle : public Triangle
 public:
     EqualateralTriangle(int ta, int tb, int tc, int tA, int tB, int tC) : Triangle(ta, tb, tc, tA, tB, tC, "Равносторонний треугольник") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C;
         if (result == 180)
         {
             if (A == 60 && B == 60 && C == 60 && a == c && a == b)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         }
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -155,23 +188,57 @@ public:
         D = tD;
     }
 
-    void getSides() override
+    int getSides(int index) const
     {
-        std::cout << "Стороны: a=" << a << " b=" << b << " c=" << c << " d=" << d << std::endl;
+        switch (index)
+        {
+        case 1:
+            return a;
+            break;
+        case 2:
+            return b;
+            break;
+        case 3:
+            return c;
+            break;
+        case 4:
+            return d;
+            break;
+        default:
+            return -1;
+            break;
+        }
     };
 
-    void getUncle() override
+    int getAngle(int index) const
     {
-        std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << " D=" << D << std::endl;
+        switch (index)
+        {
+        case 1:
+            return A;
+            break;
+        case 2:
+            return B;
+            break;
+        case 3:
+            return C;
+            break;
+        case 4:
+            return D;
+            break;
+        default:
+            return -1;
+            break;
+        }
     };
 
-    void checkRight() 
+    bool checkRight() 
     {
         int result = A + B + C + D;
         if (result == 360)
-            std::cout << "Правильная" << std::endl;
+            return true;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 
 protected:
@@ -183,16 +250,16 @@ class Rectangles : public Quadrangle
 public:
     Rectangles(int ta, int tb, int tc, int td, int tA, int tB, int tC, int tD) : Quadrangle(ta, tb, tc, td, tA, tB, tC, tD, "Прямоугольник") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C + D;
         if (result == 360)
             if(A ==90 && B == 90 && C == 90 && D == 90 && a == c && b ==d)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -201,16 +268,16 @@ class Square : public Quadrangle
 public:
     Square(int ta, int tb, int tc, int td, int tA, int tB, int tC, int tD) : Quadrangle(ta, tb, tc, td, tA, tB, tC, tD, "Квадрат") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C + D;
         if (result == 360)
             if (A == 90 && B == 90 && C == 90 && D == 90 && a == c && b == d && a == b)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -219,16 +286,16 @@ class Parallelogram : public Quadrangle
 public:
     Parallelogram(int ta, int tb, int tc, int td, int tA, int tB, int tC, int tD) : Quadrangle(ta, tb, tc, td, tA, tB, tC, tD, "Параллелограм") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C + D;
         if (result == 360)
             if (A == C && B == D && a == c && b == d)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -237,16 +304,16 @@ class Rhomb : public Quadrangle
 public:
     Rhomb(int ta, int tb, int tc, int td, int tA, int tB, int tC, int tD) : Quadrangle(ta, tb, tc, td, tA, tB, tC, tD, "Ромб") {}
 
-    void checkRight()
+    bool checkRight()
     {
         int result = A + B + C + D;
         if (result == 360)
             if (A == C && B == D && a == c && b == d && a == b)
-                std::cout << "Правильная" << std::endl;
+                return true;
             else
-                std::cout << "Неправильная" << std::endl;
+                return false;
         else
-            std::cout << "Неправильная" << std::endl;
+            return false;
     }
 };
 
@@ -284,27 +351,93 @@ int main()
     quadrangle.push_back(fig9);
 
     fig0.getType();
-    fig0.checkRight();
+    isRight(fig0.checkRight());
     fig0.getCountSides();
     std::cout << std::endl;
 
     for (auto element : triangle)
     {
         element.getType();
-        element.checkRight();
+        isRight(element.checkRight());
         element.getCountSides();
-        element.getSides();
-        element.getUncle();
+        printSides({ element.getSides(1), element.getSides(2), element.getSides(3) });
+        printAngle({ element.getAngle(1),element.getAngle(2),element.getAngle(3) });
         std::cout << std::endl;
     }
 
     for (auto element : quadrangle)
     {
         element.getType();
-        element.checkRight();
+        isRight(element.checkRight());
         element.getCountSides();
-        element.getSides();
-        element.getUncle();
+        printSides({ element.getSides(1), element.getSides(2), element.getSides(3), element.getSides(4) });
+        printAngle({ element.getAngle(1),element.getAngle(2),element.getAngle(3),element.getAngle(4) });
         std::cout << std::endl;
     }    
 }
+
+void isRight(bool isBool)
+{
+    if (isBool)
+        std::cout << "Правильная" << std::endl;
+    else
+        std::cout << "Неправильная" << std::endl;
+}
+
+void printSides(std::initializer_list<int> value)
+{
+    std::cout << "Стороны:";
+    if (value.size() == 3)
+    {
+        std::string string[3] = { " a=", " b=", " c=" };
+        int index = 0;
+        for (auto val : value)
+        {
+            std::cout << string[index] << val;
+            index++;
+        }
+        std::cout << std::endl;
+    }
+    else if (value.size() == 4)
+    {
+        std::string string[4] = { " a=", " b=", " c=", " d=" };
+        int index = 0;
+        for (auto val : value)
+        {
+            std::cout << string[index] << val;
+            index++;
+        }
+        std::cout << std::endl;
+    }
+    else
+        std::cout << "Ошибочное количество сторон!";
+};
+
+void printAngle(std::initializer_list<int> value)
+{
+    std::cout << "Углы:";
+    if (value.size() == 3)
+    {
+        std::string string[3] = { " A=", " B=", " C=" };
+        int index = 0;
+        for (auto val : value)
+        {
+            std::cout << string[index] << val;
+            index++;
+        }
+        std::cout << std::endl;
+    }
+    else if (value.size() == 4)
+    {
+        std::string string[4] = { " A=", " B=", " C=" , " D=" };
+        int index = 0;
+        for (auto val : value)
+        {
+            std::cout << string[index] << val;
+            index++;
+        }
+        std::cout << std::endl;
+    }
+    else
+        std::cout << "Ошибочное количество углов!";
+};
